@@ -21,6 +21,13 @@ def balloonWindkessel(z, sampling_rate, alpha=0.32, kappa=0.65, gamma=0.41, tau=
     tau:        Hemodynamic transit time (in seconds)
     rho:        Resting oxygen extraction fraction
     V0:         resting blood vlume fraction
+
+    RETURNS:
+    BOLD:       The transformed BOLD signal (from neural/synaptic activity)
+    s:          Vasodilatory signal
+    f:          blood inflow
+    v:          blood volume
+    q:          deoxyhemoglobin content
     """
 
     timepoints = z.shape[1]
