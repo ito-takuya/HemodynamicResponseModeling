@@ -56,11 +56,11 @@ def balloonWindkessel(z, sampling_rate, alpha=0.32, kappa=0.65, gamma=0.41, tau=
         v = np.zeros(z.shape) # blood volume
         q = np.zeros(z.shape) # deoxyhemoglobin content
     else:
-        BOLD = np.zeros(1,len(z))
-        s = np.zeros(1,len(z)) # vasodilatory signal
-        f = np.zeros(1,len(z)) # blood inflow
-        v = np.zeros(1,len(z)) # blood volume
-        q = np.zeros(1,len(z)) # deoxyhemoglobin content
+        BOLD = np.zeros((1,len(z)))
+        s = np.zeros((1,len(z))) # vasodilatory signal
+        f = np.zeros((1,len(z))) # blood inflow
+        v = np.zeros((1,len(z))) # blood volume
+        q = np.zeros((1,len(z))) # deoxyhemoglobin content
 
     # Set initial conditions
     s[:,0] = 0.0
