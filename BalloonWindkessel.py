@@ -13,7 +13,7 @@ def balloonWindkessel(z, sampling_rate, alpha=0.32, kappa=0.65, gamma=0.41, tau=
     Computes the Balloon-Windkessel transformed BOLD signal
     Numerical method (for integration): Runge-Kutta 2nd order method (RK2)
 
-    z:          Measure of neuronal activity (space x time 2d array)
+    z:          Measure of neuronal activity (space x time 2d array, or 1d time array)
     sampling_rate: sampling rate, or time step (in seconds)
     alpha:      Grubb's exponent
     kappa:      Rate of signal decay (in seconds)
@@ -30,7 +30,11 @@ def balloonWindkessel(z, sampling_rate, alpha=0.32, kappa=0.65, gamma=0.41, tau=
     q:          deoxyhemoglobin content
     """
 
-    timepoints = z.shape[1]
+    if z.ndim==2:
+        timepoints = z.shape[1]
+    else:
+        timepoints = len(z)
+
     dt = sampling_rate
 
     # Constants
@@ -43,14 +47,20 @@ def balloonWindkessel(z, sampling_rate, alpha=0.32, kappa=0.65, gamma=0.41, tau=
     # Create lambda function to calculate y, the BOLD signal
     y = lambda q1,v1: V0 * (k1*(1.0-q1) + k2*(1.0 - q1/v1) + k3*(1.0 - v1))
 
-    # initialize output BOLD matrix
-    BOLD = np.zeros(z.shape)
 
     # initialize empty matrices to integrate through
-    s = np.zeros(z.shape) # vasodilatory signal
-    f = np.zeros(z.shape) # blood inflow
-    v = np.zeros(z.shape) # blood volume
-    q = np.zeros(z.shape) # deoxyhemoglobin content
+    if z.ndim==2:
+        BOLD = np.zeros(z.shape)
+        s = np.zeros(z.shape) # vasodilatory signal
+        f = np.zeros(z.shape) # blood inflow
+        v = np.zeros(z.shape) # blood volume
+        q = np.zeros(z.shape) # deoxyhemoglobin content
+    else:
+        BOLD = np.zeros(1,len(z))
+        s = np.zeros(1,len(z)) # vasodilatory signal
+        f = np.zeros(1,len(z)) # blood inflow
+        v = np.zeros(1,len(z)) # blood volume
+        q = np.zeros(1,len(z)) # deoxyhemoglobin content
 
     # Set initial conditions
     s[:,0] = 0.0
