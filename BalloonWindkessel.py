@@ -70,7 +70,8 @@ def balloonWindkessel(z, sampling_rate, alpha=0.32, kappa=0.65, gamma=0.41, tau=
     for t in range(timepoints-1):
     
         # 1st order increments (regular Euler)
-        s_k1 = z_mean - (1.0/kappa)*s[:,t] - (1.0/gamma)*(f[:,t] - 1.0)
+        #s_k1 = z_mean - (1.0/kappa)*s[:,t] - (1.0/gamma)*(f[:,t] - 1.0)
+        s_k1 = z_mean - (kappa)*s[:,t] - (gamma)*(f[:,t] - 1.0)
         f_k1 = s[:,t]
         v_k1 = (f[:,t] - v[:,t]**(1.0/alpha))/tau
         q_k1 = (f[:,t]*E(f[:,t])/rho - (v[:,t]**(1.0/alpha)) * q[:,t]/v[:,t])/tau
@@ -82,7 +83,8 @@ def balloonWindkessel(z, sampling_rate, alpha=0.32, kappa=0.65, gamma=0.41, tau=
         q_a = q[:,t] + q_k1*dt
 
         # 2nd order increments (RK2 method)
-        s_k2 = z_mean - (1.0/kappa)*s_a - (1.0/gamma)*(f_a - 1.0)
+        #s_k2 = z_mean - (1.0/kappa)*s_a - (1.0/gamma)*(f_a - 1.0)
+        s_k2 = z_mean - (kappa)*s_a - (gamma)*(f_a - 1.0)
         f_k2 = s_a
         v_k2 = (f_a - v_a**(1.0/alpha))/tau
         q_k2 = (f_a*E(f_a)/rho - (v_a**(1.0/alpha)) * q_a/v_a)/tau
@@ -109,7 +111,8 @@ def balloonWindkessel(z, sampling_rate, alpha=0.32, kappa=0.65, gamma=0.41, tau=
     for t in range(timepoints-1):
     
         # 1st order increments (regular Euler)
-        s_k1 = z[:,t] - (1.0/kappa)*s[:,t] - (1.0/gamma)*(f[:,t] - 1.0)
+        #s_k1 = z[:,t] - (1.0/kappa)*s[:,t] - (1.0/gamma)*(f[:,t] - 1.0)
+        s_k1 = z[:,t] - (kappa)*s[:,t] - (gamma)*(f[:,t] - 1.0)
         f_k1 = s[:,t]
         v_k1 = (f[:,t] - v[:,t]**(1.0/alpha))/tau
         q_k1 = (f[:,t]*E(f[:,t])/rho - (v[:,t]**(1.0/alpha)) * q[:,t]/v[:,t])/tau
@@ -121,7 +124,8 @@ def balloonWindkessel(z, sampling_rate, alpha=0.32, kappa=0.65, gamma=0.41, tau=
         q_a = q[:,t] + q_k1*dt
 
         # 2nd order increments (RK2 method)
-        s_k2 = z[:,t+1] - (1.0/kappa)*s_a - (1.0/gamma)*(f_a - 1.0)
+        #s_k2 = z[:,t+1] - (1.0/kappa)*s_a - (1.0/gamma)*(f_a - 1.0)
+        s_k2 = z[:,t+1] - (kappa)*s_a - (gamma)*(f_a - 1.0)
         f_k2 = s_a
         v_k2 = (f_a - v_a**(1.0/alpha))/tau
         q_k2 = (f_a*E(f_a)/rho - (v_a**(1.0/alpha)) * q_a/v_a)/tau
